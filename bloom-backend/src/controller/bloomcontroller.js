@@ -14,7 +14,7 @@ export async function getBloomStatus(req, res) {
     const [
       currentClimate,
       historicalClimate,
-      ndviData,
+      {data: ndviData , tiffUrl},
       observations
     ] = await Promise.all([
       fetchClimateData(shiftDate(startDate, 30), endDate, lat, lon),
@@ -35,7 +35,15 @@ export async function getBloomStatus(req, res) {
     const historicalMetrics = calculateClimateMetrics(historicalClimate);
 
     // NDVI average & trend
-    const avgNDVI = ndviData.reduce((sum, d) => sum + d.ndvi, 0) / ndviData.length;
+    if (!Array.isArray(ndviData)) {
+      console.error("NDVI data is not an array:", ndviData);
+      throw new Error("Invalid NDVI data format");
+    }
+
+    const avgNDVI =
+      ndviData.length > 0
+        ? ndviData.reduce((sum, d) => sum + (d.ndvi || 0), 0) / ndviData.length
+        : 0;
     const ndviTrend = ndviData.map(d => ({ date: d.date, value: d.ndvi }));
 
     // Species processing
@@ -111,6 +119,7 @@ export async function getBloomStatus(req, res) {
       avgNDVI,
       ndviTrend,
       score,
+      tiffUrl,
       topSpecies: [firstSpecies]
     };
 

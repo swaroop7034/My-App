@@ -101,7 +101,6 @@ export async function submitNDVITask(startDate, endDate, lat, lon, locationName)
   const taskRequest = {
     task_type: "point",
     task_name: `bloom_${locationName}_${Date.now()}`,
-    format: "CSV",
     params: {
       dates: [
         {
@@ -125,8 +124,17 @@ export async function submitNDVITask(startDate, endDate, lat, lon, locationName)
           latitude: lat,
           longitude: lon,
           category: "bloom_location"
-        }
-      ]
+        }],
+        outputs: [
+          {
+            file_type: "csv",
+            projection_name: "geographic"
+          },
+          {
+            file_type: "geotiff",
+            projection_name: "geographic"
+          }
+        ]
     }
   };
 
@@ -217,7 +225,15 @@ export async function downloadNDVIData(taskId, token) {
     evi: parseFloat(row["MOD13Q1_061__250m_16_days_EVI"])
   }));
 
-  return data;
+  // Find GeoTIFF file
+  const tiffFile = bundle.files.find(f => f.file_name.includes(".tif"));
+  let tiffUrl = null;
+
+  if (tiffFile && tiffFile.file_id) {
+    tiffUrl = `${APPEEARS_BASE}/bundle/${taskId}/${tiffFile.file_id}`;
+  }
+
+  return { data, tiffUrl };
 }
 
 /**

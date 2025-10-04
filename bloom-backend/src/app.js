@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import bodyParser from "body-parser";
 import dotenv from "dotenv";
 import nasaAPI from "./config/nasaApi.js"; // your existing NASA API file
@@ -6,9 +7,13 @@ import { getObservations } from "./controller/iNaturalistcontroller.js";
 import { getHistoricalNDVI } from "./controller/ndvicontroller.js";
 import { getGLOBEObservations } from "./controller/globecontroller.js";
 import { getBloomStatus } from "./controller/bloomcontroller.js";
+import { calculateClimateMetrics } from "./config/nasaApi.js";
 dotenv.config();
 
+
 const app = express();
+
+app.use(cors());
 
 app.use(bodyParser.json());
 
@@ -30,7 +35,16 @@ app.get("/", (req, res) => {
 app.post("/climate", async (req, res) => {
   try {
     const { startDate, endDate, lat, lon } = req.body;
-    const data = await nasaAPI.fetchClimateData(startDate, endDate, lat, lon);
+    const currentClimate = await nasaAPI.fetchClimateData(startDate, endDate, lat, lon);
+    const historicalClimate = await nasaAPI.fetchClimateData(startDate, endDate, lat, lon);
+    const currentMetrics = calculateClimateMetrics(currentClimate);
+    const historicalMetrics = calculateClimateMetrics(historicalClimate);
+
+    const data = {
+      currentMetrics,
+      historicalMetrics
+    }
+
     res.json(data);
   } catch (err) {
     res.status(500).json({ error: err.message });
