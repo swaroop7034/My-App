@@ -1,46 +1,96 @@
+/* bloom.css - Green Theme */
 .bloom-container {
-  padding: 20px;
-  max-width: 600px;
-  margin: auto;
-  font-family: Arial, sans-serif;
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 40px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  color: white;
+}
+
+.bloom-container h2 {
+  font-size: 2.5em;
+  text-align: center;
+  margin-bottom: 30px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  animation: fadeInDown 0.8s ease;
 }
 
 .input-fields {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
+  margin-bottom: 25px;
 }
 
 .input-fields input {
-  padding: 8px;
-  font-size: 16px;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1em;
+  background: rgba(255, 255, 255, 0.9);
+  transition: all 0.3s ease;
+}
+
+.input-fields input:focus {
+  outline: none;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(56, 239, 125, 0.4);
 }
 
 .input-fields button {
-  padding: 10px;
-  font-size: 16px;
-  cursor: pointer;
-  background-color: #4CAF50;
+  padding: 15px 30px;
+  background: #28a745;
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 10px;
+  font-size: 1.1em;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .input-fields button:hover {
-  background-color: #45a049;
+  background: #218838;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(40, 167, 69, 0.4);
 }
 
-.coordinates-box {
-  margin-top: 15px;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-.response-box {
+.coordinates-box, .response-box {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  border-radius: 15px;
   margin-top: 20px;
+  animation: fadeIn 0.5s ease;
+}
+
+.response-box h3 {
+  margin-top: 0;
+  color: #c3f73a;
+}
+
+.response-box pre {
+  background: rgba(0, 0, 0, 0.3);
   padding: 15px;
-  border: 2px solid #333;
-  border-radius: 6px;
-  background-color: #f9f9f9;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 0.9em;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

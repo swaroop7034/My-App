@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { MapContainer, TileLayer, Marker, Popup, useMap } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet.heat";
 import "../css/map.css";
 
 function ChangeView({ center }) {
@@ -16,6 +18,7 @@ const Maps = () => {
   const [coords, setCoords] = useState([20, 0]);
   const [latLon, setLatLon] = useState(null);
   const [backendResponse, setBackendResponse] = useState(null);
+  const [mapInstance, setMapInstance] = useState(null);
 
   const handleSearch = async () => {
     if (!locationName || !startDate || !endDate) {
@@ -76,6 +79,39 @@ const Maps = () => {
     }
   };
 
+  // Add NDVI Heatmap
+  useEffect(() => {
+    if (mapInstance && backendResponse && backendResponse.ndviTrend && latLon) {
+      // Remove existing heat layer
+      mapInstance.eachLayer(layer => {
+        if (layer.options && layer.options.pane === "markerPane") return;
+        if (layer instanceof L.HeatLayer) {
+          mapInstance.removeLayer(layer);
+        }
+      });
+
+      const heatPoints = backendResponse.ndviTrend.map(ndviPoint => [
+        parseFloat(latLon.lat),
+        parseFloat(latLon.lon),
+        ndviPoint.value // NDVI intensity (0–1)
+      ]);
+
+      const heatLayer = L.heatLayer(heatPoints, {
+        radius: 25,
+        blur: 15,
+        maxZoom: 17,
+        gradient: {
+          0.2: "brown",
+          0.4: "yellow",
+          0.6: "lime",
+          0.8: "green"
+        }
+      });
+
+      heatLayer.addTo(mapInstance);
+    }
+  }, [backendResponse, latLon, mapInstance]);
+
   return (
     <div className="map-container">
       <h2 className="map-title">World Map Climate Viewer</h2>
@@ -111,11 +147,16 @@ const Maps = () => {
 
       {/* Map */}
       <div className="map-box">
-        <MapContainer center={coords} zoom={2} style={{ height: "100%", width: "100%" }}>
+        <MapContainer
+          center={coords}
+          zoom={6}
+          style={{ height: "500px", width: "100%" }}
+          whenCreated={setMapInstance}
+        >
           <ChangeView center={coords} />
           <TileLayer
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            attribution='&copy; OpenStreetMap contributors'
+            attribution="&copy; OpenStreetMap contributors"
           />
           <Marker position={coords}>
             <Popup>{locationName || "Center of the world 🌍"}</Popup>

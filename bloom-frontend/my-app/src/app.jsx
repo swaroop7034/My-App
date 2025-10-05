@@ -1,11 +1,12 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/Navbar.jsx";
+import Navbar from "./components/navbar.jsx";
 import Home from "./pages/homepage.jsx";
 import About from "./pages/about.jsx";
 import Timeline from "./pages/timeline.jsx";
 import Maps from "./pages/map.jsx";
 import "./app.css";
 import Bloom from "./pages/bloom.jsx";
+import Footer from "./components/Footer.jsx";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
           <Route path="/bloom" element={<Bloom />} />
         </Routes>
       </div>
+      <Footer />
+
     </Router>
   );
 }
