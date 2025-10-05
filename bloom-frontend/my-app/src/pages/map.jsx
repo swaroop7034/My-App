@@ -5,6 +5,8 @@ import "leaflet/dist/leaflet.css";
 import "leaflet.heat";
 import "../css/map.css";
 
+const API_BASE = import.meta.env.VITE_API_BASE;
+
 function ChangeView({ center }) {
   const map = useMap();
   map.setView(center, 6);
