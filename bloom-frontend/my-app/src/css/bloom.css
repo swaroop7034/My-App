@@ -1,0 +1,46 @@
+.bloom-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: auto;
+  font-family: Arial, sans-serif;
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.input-fields input {
+  padding: 8px;
+  font-size: 16px;
+}
+
+.input-fields button {
+  padding: 10px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+.input-fields button:hover {
+  background-color: #45a049;
+}
+
+.coordinates-box {
+  margin-top: 15px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.response-box {
+  margin-top: 20px;
+  padding: 15px;
+  border: 2px solid #333;
+  border-radius: 6px;
+  background-color: #f9f9f9;
+}

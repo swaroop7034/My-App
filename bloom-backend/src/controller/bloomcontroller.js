@@ -14,7 +14,7 @@ export async function getBloomStatus(req, res) {
     const [
       currentClimate,
       historicalClimate,
-      {data: ndviData , tiffUrl},
+      ndviData,
       observations
     ] = await Promise.all([
       fetchClimateData(shiftDate(startDate, 30), endDate, lat, lon),
@@ -119,7 +119,6 @@ export async function getBloomStatus(req, res) {
       avgNDVI,
       ndviTrend,
       score,
-      tiffUrl,
       topSpecies: [firstSpecies]
     };
 

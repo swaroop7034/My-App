@@ -101,6 +101,7 @@ export async function submitNDVITask(startDate, endDate, lat, lon, locationName)
   const taskRequest = {
     task_type: "point",
     task_name: `bloom_${locationName}_${Date.now()}`,
+    Format: "CSV",
     params: {
       dates: [
         {
@@ -124,17 +125,7 @@ export async function submitNDVITask(startDate, endDate, lat, lon, locationName)
           latitude: lat,
           longitude: lon,
           category: "bloom_location"
-        }],
-        outputs: [
-          {
-            file_type: "csv",
-            projection_name: "geographic"
-          },
-          {
-            file_type: "geotiff",
-            projection_name: "geographic"
-          }
-        ]
+        }]
     }
   };
 
