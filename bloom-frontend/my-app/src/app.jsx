@@ -8,6 +8,9 @@ import "./app.css";
 import Bloom from "./pages/bloom.jsx";
 import Footer from "./components/Footer.jsx";
 
+const API_BASE = import.meta.env.VITE_API_BASE; // Vite
+// const API_BASE = process.env.REACT_APP_API_BASE; // CRA
+
 function App() {
   return (
     <Router>

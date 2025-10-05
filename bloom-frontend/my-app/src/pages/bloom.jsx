@@ -41,11 +41,11 @@ const Bloom = () => {
       console.log("Sending payload to backend:", payload);
 
       // Send to backend
-      const response = await fetch("http://localhost:3000/bloom-status", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+        const response = await fetch(`${API_BASE}/bloom-status`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
 
       if (!response.ok) {
         console.error("Backend error:", response.status);
