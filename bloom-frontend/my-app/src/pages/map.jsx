@@ -60,11 +60,11 @@ const Maps = () => {
     try {
       console.log("Sending to backend:", payload);
 
-      const response = await fetch("http://localhost:3000/climate", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(`${API_BASE}/climate`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        })
 
       if (!response.ok) {
         console.error("Backend error:", response.status);
